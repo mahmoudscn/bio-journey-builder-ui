@@ -2,34 +2,34 @@
 import { RoadmapData } from '@/types/roadmap';
 
 export const initialRoadmapData: RoadmapData = {
-  title: "Bioinformatics Learning Journey",
-  description: "A comprehensive roadmap to mastering bioinformatics concepts and tools",
+  title: "Comprehensive Bioinformatics Learning Path",
+  description: "A strategic roadmap to master bioinformatics from foundational concepts to advanced computational techniques",
   milestones: [
     {
       id: "m1",
-      title: "Introduction to Bioinformatics",
-      description: "Fundamental concepts and tools in bioinformatics",
+      title: "Programming Fundamentals for Bioinformatics",
+      description: "Build essential programming skills for computational biology",
       isExpanded: true,
       resources: [
         {
           id: "r1",
-          title: "What is Bioinformatics?",
-          description: "An overview of bioinformatics and its applications in modern biology",
-          url: "https://www.nature.com/subjects/bioinformatics",
-          type: "article",
+          title: "Python for Biologists",
+          description: "Learn Python programming with a focus on biological data manipulation",
+          url: "https://www.coursera.org/learn/python-for-biologists",
+          type: "course",
           difficulty: "beginner",
-          tags: ["introduction", "overview"],
+          tags: ["python", "programming", "basics"],
           completed: false,
           favorite: false
         },
         {
           id: "r2",
-          title: "Introduction to Biological Data Analysis",
-          description: "Learn about various types of biological data and analysis techniques",
-          url: "https://www.youtube.com/watch?v=jvkvA5ohK_c",
-          type: "video",
+          title: "Intro to R Programming in Bioinformatics",
+          description: "Statistical programming and data analysis using R",
+          url: "https://www.edx.org/course/introduction-to-r-for-data-science",
+          type: "tutorial",
           difficulty: "beginner",
-          tags: ["data analysis", "basics"],
+          tags: ["R", "statistics", "data analysis"],
           completed: false,
           favorite: false
         }
@@ -37,29 +37,29 @@ export const initialRoadmapData: RoadmapData = {
     },
     {
       id: "m2",
-      title: "DNA Sequence Analysis",
-      description: "Learn to analyze DNA sequences using computational tools",
+      title: "Genomics and Sequence Analysis",
+      description: "Advanced techniques for analyzing genetic data",
       isExpanded: false,
       resources: [
         {
           id: "r3",
-          title: "DNA Sequence Alignment Basics",
-          description: "Understanding how DNA sequences are aligned and compared",
-          url: "https://www.coursera.org/learn/bioinformatics",
-          type: "tutorial",
+          title: "Next-Generation Sequencing (NGS) Techniques",
+          description: "Comprehensive guide to modern DNA sequencing technologies",
+          url: "https://www.nature.com/articles/nrg.2016.49",
+          type: "article",
           difficulty: "intermediate",
-          tags: ["DNA", "sequence alignment"],
+          tags: ["genomics", "sequencing", "DNA"],
           completed: false,
           favorite: false
         },
         {
           id: "r4",
-          title: "BLAST Tool Tutorial",
-          description: "How to use BLAST for sequence similarity searches",
-          url: "https://www.ncbi.nlm.nih.gov/Class/BLAST/blast_course.short.html",
-          type: "tutorial",
-          difficulty: "intermediate",
-          tags: ["BLAST", "tools"],
+          title: "Genome Assembly and Annotation",
+          description: "Techniques for reconstructing and interpreting genomic sequences",
+          url: "https://www.coursera.org/learn/genome-assembly",
+          type: "video",
+          difficulty: "advanced",
+          tags: ["genome", "assembly", "bioinformatics"],
           completed: false,
           favorite: false
         }
@@ -67,29 +67,29 @@ export const initialRoadmapData: RoadmapData = {
     },
     {
       id: "m3",
-      title: "Genomics & Next-Generation Sequencing",
-      description: "Explore genomics concepts and next-generation sequencing technologies",
+      title: "Machine Learning in Computational Biology",
+      description: "Apply machine learning techniques to biological data analysis",
       isExpanded: false,
       resources: [
         {
           id: "r5",
-          title: "Genomics Explained",
-          description: "Comprehensive introduction to genomics and its importance",
-          url: "https://www.genome.gov/about-genomics/fact-sheets/A-Brief-Guide-to-Genomics",
+          title: "Deep Learning for Genomic Prediction",
+          description: "Machine learning approaches for genomic research",
+          url: "https://www.nature.com/articles/s41588-018-0183-z",
           type: "article",
-          difficulty: "intermediate",
-          tags: ["genomics", "basics"],
+          difficulty: "advanced",
+          tags: ["machine learning", "genomics", "deep learning"],
           completed: false,
           favorite: false
         },
         {
           id: "r6",
-          title: "NGS Data Analysis Pipeline",
-          description: "Build an NGS data analysis pipeline from scratch",
-          url: "https://www.illumina.com/techniques/sequencing/ngs-library-prep/beginners.html",
+          title: "Practical Machine Learning for Biological Data",
+          description: "Hands-on course applying ML to biological datasets",
+          url: "https://www.edx.org/course/machine-learning-for-biological-data",
           type: "tutorial",
           difficulty: "advanced",
-          tags: ["NGS", "data analysis", "pipeline"],
+          tags: ["ML", "data science", "biology"],
           completed: false,
           favorite: false
         }
@@ -97,29 +97,29 @@ export const initialRoadmapData: RoadmapData = {
     },
     {
       id: "m4",
-      title: "Proteomics & Structural Bioinformatics",
-      description: "Study protein structures and functions using computational approaches",
+      title: "Proteomics and Structural Bioinformatics",
+      description: "Advanced techniques for protein structure and function analysis",
       isExpanded: false,
       resources: [
         {
           id: "r7",
-          title: "Introduction to Proteomics",
-          description: "Learn the basics of proteomics and its applications",
-          url: "https://www.nature.com/articles/nmeth1153",
-          type: "article",
-          difficulty: "intermediate",
-          tags: ["proteomics", "proteins"],
+          title: "Protein Structure Prediction with AlphaFold",
+          description: "Understanding and using AI-powered protein structure prediction",
+          url: "https://alphafold.ebi.ac.uk/",
+          type: "dataset",
+          difficulty: "advanced",
+          tags: ["proteins", "AI", "structure"],
           completed: false,
           favorite: false
         },
         {
           id: "r8",
-          title: "Protein Structure Prediction Tools",
-          description: "Overview of computational tools for protein structure prediction",
-          url: "https://alphafold.ebi.ac.uk/",
-          type: "dataset",
-          difficulty: "advanced",
-          tags: ["protein structure", "prediction", "tools"],
+          title: "Protein-Protein Interaction Networks",
+          description: "Computational methods for analyzing protein interactions",
+          url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5933291/",
+          type: "article",
+          difficulty: "intermediate",
+          tags: ["proteomics", "networks", "interactions"],
           completed: false,
           favorite: false
         }
@@ -127,29 +127,29 @@ export const initialRoadmapData: RoadmapData = {
     },
     {
       id: "m5",
-      title: "Machine Learning in Bioinformatics",
-      description: "Apply machine learning techniques to biological problems",
+      title: "Bioinformatics Tools and Databases",
+      description: "Essential computational resources for biological research",
       isExpanded: false,
       resources: [
         {
           id: "r9",
-          title: "ML Applications in Bioinformatics",
-          description: "Explore how machine learning is revolutionizing bioinformatics",
-          url: "https://www.nature.com/articles/s41576-019-0122-6",
-          type: "article",
-          difficulty: "advanced",
-          tags: ["machine learning", "applications"],
+          title: "NCBI GenBank and Sequence Databases",
+          description: "Comprehensive guide to using genetic sequence repositories",
+          url: "https://www.ncbi.nlm.nih.gov/genbank/",
+          type: "tutorial",
+          difficulty: "intermediate",
+          tags: ["databases", "genetics", "research"],
           completed: false,
           favorite: false
         },
         {
           id: "r10",
-          title: "Building ML Models for Gene Expression Data",
-          description: "Hands-on tutorial for analyzing gene expression with ML",
-          url: "https://www.kaggle.com/sulianova/cardiovascular-disease-dataset",
-          type: "dataset",
-          difficulty: "advanced",
-          tags: ["machine learning", "gene expression", "practical"],
+          title: "Bioinformatics Software Toolkit",
+          description: "Essential open-source tools for computational biology",
+          url: "https://bioinformatics.org/wiki/Bioinformatics_tools",
+          type: "article",
+          difficulty: "intermediate",
+          tags: ["tools", "software", "open source"],
           completed: false,
           favorite: false
         }
