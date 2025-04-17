@@ -4,7 +4,7 @@ import { Resource, ResourceType, ResourceDifficulty } from '@/types/roadmap';
 import { ResourceCard } from '@/components/resource/ResourceCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { 
@@ -117,9 +117,13 @@ export function ResourceList({ milestoneId, resources }: ResourceListProps) {
     setSearchTerm('');
   };
 
+  const hasActiveFilters = activeFilters.types.length > 0 || 
+    activeFilters.difficulties.length > 0 || 
+    activeFilters.tags.length > 0;
+
   return (
     <div className="space-y-4">
-      <div className="flex flex-col md:flex-row gap-2 items-stretch md:items-center">
+      <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
@@ -133,9 +137,16 @@ export function ResourceList({ milestoneId, resources }: ResourceListProps) {
         
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="gap-1">
+            <Button variant="outline" className="gap-1 shrink-0">
               <Filter className="h-4 w-4" />
               <span>Filter</span>
+              {hasActiveFilters && (
+                <Badge variant="secondary" className="ml-1">{
+                  activeFilters.types.length + 
+                  activeFilters.difficulties.length + 
+                  activeFilters.tags.length
+                }</Badge>
+              )}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end">
@@ -194,19 +205,17 @@ export function ResourceList({ milestoneId, resources }: ResourceListProps) {
         </DropdownMenu>
       </div>
       
-      {/* Active filter badges */}
-      {(activeFilters.types.length > 0 || 
-        activeFilters.difficulties.length > 0 || 
-        activeFilters.tags.length > 0) && (
-        <div className="flex flex-wrap gap-2">
+      {/* Active filter badges - more compact on mobile */}
+      {hasActiveFilters && (
+        <div className="flex flex-wrap gap-1 md:gap-2">
           {activeFilters.types.map(type => (
             <Badge 
               key={`type-${type}`} 
               variant="secondary"
-              className="px-2 py-1 cursor-pointer hover:opacity-80"
+              className="px-2 py-0.5 text-xs md:text-sm cursor-pointer hover:opacity-80 flex items-center"
               onClick={() => toggleTypeFilter(type)}
             >
-              {type} ✕
+              {type} <X size={12} className="ml-1" />
             </Badge>
           ))}
           
@@ -214,10 +223,10 @@ export function ResourceList({ milestoneId, resources }: ResourceListProps) {
             <Badge 
               key={`diff-${difficulty}`} 
               variant="secondary"
-              className="px-2 py-1 cursor-pointer hover:opacity-80"
+              className="px-2 py-0.5 text-xs md:text-sm cursor-pointer hover:opacity-80 flex items-center"
               onClick={() => toggleDifficultyFilter(difficulty)}
             >
-              {difficulty} ✕
+              {difficulty} <X size={12} className="ml-1" />
             </Badge>
           ))}
           
@@ -225,10 +234,10 @@ export function ResourceList({ milestoneId, resources }: ResourceListProps) {
             <Badge 
               key={`tag-${tag}`} 
               variant="secondary"
-              className="px-2 py-1 cursor-pointer hover:opacity-80"
+              className="px-2 py-0.5 text-xs md:text-sm cursor-pointer hover:opacity-80 flex items-center"
               onClick={() => toggleTagFilter(tag)}
             >
-              {tag} ✕
+              {tag} <X size={12} className="ml-1" />
             </Badge>
           ))}
         </div>
@@ -237,7 +246,7 @@ export function ResourceList({ milestoneId, resources }: ResourceListProps) {
       {/* Resource list */}
       <div className="space-y-3">
         {filteredResources.length === 0 ? (
-          <div className="text-center p-8 text-muted-foreground">
+          <div className="text-center p-4 md:p-8 text-muted-foreground">
             No resources match your filters.
           </div>
         ) : (

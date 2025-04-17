@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button';
 import { 
   Download, 
   Upload, 
-  Sun, 
-  Moon,
   Info,
   PanelLeftClose,
   PanelLeftOpen
@@ -34,6 +32,7 @@ import {
   SheetClose
 } from "@/components/ui/sheet";
 import { Textarea } from '@/components/ui/textarea';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function Dashboard() {
   const { roadmap, exportData, importData } = useRoadmap();
@@ -42,6 +41,16 @@ export function Dashboard() {
   const [importedData, setImportedData] = useState<string>('');
   const [jsonError, setJsonError] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const isMobile = useIsMobile();
+  
+  // Auto-close sidebar on mobile
+  React.useEffect(() => {
+    if (isMobile) {
+      setIsSidebarOpen(false);
+    } else {
+      setIsSidebarOpen(true);
+    }
+  }, [isMobile]);
   
   const completedResourcesCount = roadmap.milestones.reduce(
     (count, milestone) => count + milestone.resources.filter(r => r.completed).length, 
@@ -128,9 +137,9 @@ export function Dashboard() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="p-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10">
+      <header className="p-2 md:p-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
             <Button 
               variant="ghost" 
               size="icon"
@@ -139,10 +148,10 @@ export function Dashboard() {
             >
               {isSidebarOpen ? <PanelLeftClose size={20} /> : <PanelLeftOpen size={20} />}
             </Button>
-            <h1 className="text-2xl font-bold">Bioinformatics Roadmap</h1>
+            <h1 className="text-lg md:text-2xl font-bold truncate">Bioinformatics Roadmap</h1>
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
             <input
               type="file"
               ref={fileInputRef}
@@ -153,8 +162,13 @@ export function Dashboard() {
             
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-1">
+                <Button variant="outline" size="sm" className="gap-1 hidden sm:flex">
                   <Upload size={16} /> Import
+                </Button>
+              </SheetTrigger>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon" className="sm:hidden">
+                  <Upload size={16} />
                 </Button>
               </SheetTrigger>
               <SheetContent>
@@ -210,8 +224,21 @@ export function Dashboard() {
               </SheetContent>
             </Sheet>
             
-            <Button variant="outline" size="sm" className="gap-1" onClick={handleExport}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-1 hidden sm:flex" 
+              onClick={handleExport}
+            >
               <Download size={16} /> Export
+            </Button>
+            <Button 
+              variant="outline" 
+              size="icon" 
+              className="sm:hidden" 
+              onClick={handleExport}
+            >
+              <Download size={16} />
             </Button>
             
             <ThemeToggle />
@@ -220,9 +247,9 @@ export function Dashboard() {
       </header>
       
       <div className="flex-1 flex">
-        {/* Sidebar */}
+        {/* Sidebar - now using conditional rendering and positioning for mobile */}
         {isSidebarOpen && (
-          <aside className="w-64 border-r bg-muted/40 p-4 space-y-4 hidden md:block overflow-y-auto">
+          <aside className={`w-72 border-r bg-muted/40 p-4 space-y-4 overflow-y-auto ${isMobile ? 'fixed left-0 top-16 bottom-0 z-40 animate-slide-right' : 'relative'}`}>
             <div>
               <h2 className="text-lg font-semibold mb-2">Roadmap Overview</h2>
               <Card>
@@ -276,15 +303,27 @@ export function Dashboard() {
                 </p>
               </div>
             </div>
+            
+            {/* Add close button for mobile */}
+            {isMobile && (
+              <Button 
+                className="absolute top-2 right-2" 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                ✕
+              </Button>
+            )}
           </aside>
         )}
         
         {/* Main Content */}
-        <main className={`flex-1 p-4 md:p-6 overflow-y-auto ${isSidebarOpen ? 'md:ml-0' : ''}`}>
+        <main className={`flex-1 p-3 md:p-6 overflow-y-auto ${isSidebarOpen && !isMobile ? 'md:ml-0' : 'w-full'}`}>
           <div className="container mx-auto max-w-4xl">
-            <div className="bg-card rounded-lg shadow p-6">
-              <div className="mb-6">
-                <h1 className="text-3xl font-bold">{roadmap.title}</h1>
+            <div className="bg-card rounded-lg shadow p-3 md:p-6">
+              <div className="mb-4 md:mb-6">
+                <h1 className="text-xl md:text-3xl font-bold">{roadmap.title}</h1>
                 <p className="text-muted-foreground mt-2">{roadmap.description}</p>
               </div>
               
@@ -293,6 +332,14 @@ export function Dashboard() {
           </div>
         </main>
       </div>
+      
+      {/* Mobile overlay when sidebar is open */}
+      {isMobile && isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-30"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
     </div>
   );
 }
