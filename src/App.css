@@ -75,6 +75,37 @@
   .sidebar-mobile.open {
     transform: translateX(0);
   }
+
+  /* Mobile-friendly buttons and inputs */
+  .btn-mobile {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Stack form elements vertically on mobile */
+  .form-stack-mobile {
+    flex-direction: column;
+  }
+
+  /* Add more padding for touch targets */
+  .touch-target {
+    padding: 0.5rem;
+  }
+
+  /* Adjust font sizes for mobile */
+  .text-mobile-sm {
+    font-size: 0.875rem;
+  }
+
+  .text-mobile-base {
+    font-size: 1rem;
+  }
+
+  /* Adjust spacing for mobile */
+  .mobile-spacing {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+  }
 }
 
 /* Custom scrollbar for webkit browsers */
@@ -94,4 +125,58 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(155, 155, 155, 0.7);
+}
+
+/* Responsive animations */
+@keyframes slide-in-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-from-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive utilities */
+.animate-slide-left {
+  animation: slide-in-from-left 0.3s ease-out;
+}
+
+.animate-slide-right {
+  animation: slide-in-from-right 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-in-from-bottom 0.3s ease-out;
+}
+
+.animate-fade {
+  animation: fade-in 0.3s ease-out;
 }

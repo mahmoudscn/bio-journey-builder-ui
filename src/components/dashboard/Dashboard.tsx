@@ -8,7 +8,8 @@ import {
   Upload, 
   Info,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  Menu
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { 
@@ -33,6 +34,7 @@ import {
 } from "@/components/ui/sheet";
 import { Textarea } from '@/components/ui/textarea';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { MobileHeader } from '@/components/layout/MobileHeader';
 
 export function Dashboard() {
   const { roadmap, exportData, importData } = useRoadmap();
@@ -117,9 +119,18 @@ export function Dashboard() {
       importData(importedData);
       setImportedData('');
       setJsonError(null);
+      toast({
+        title: "Import Successful",
+        description: "Your roadmap data has been imported.",
+      });
     } catch (err) {
       console.error("Error importing data:", err);
       setJsonError("Invalid JSON format. Please check your data.");
+      toast({
+        title: "Import Failed",
+        description: "Invalid JSON format. Please check your data.",
+        variant: "destructive"
+      });
     }
   };
   
@@ -135,11 +146,11 @@ export function Dashboard() {
   };
   
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="p-2 md:p-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10">
+    <div className="min-h-screen flex flex-col bg-background">
+      {/* Desktop Header */}
+      <header className="hidden md:block p-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-1 md:gap-2">
+          <div className="flex items-center gap-2">
             <Button 
               variant="ghost" 
               size="icon"
@@ -148,10 +159,10 @@ export function Dashboard() {
             >
               {isSidebarOpen ? <PanelLeftClose size={20} /> : <PanelLeftOpen size={20} />}
             </Button>
-            <h1 className="text-lg md:text-2xl font-bold truncate">Bioinformatics Roadmap</h1>
+            <h1 className="text-2xl font-bold truncate">Bioinformatics Roadmap</h1>
           </div>
           
-          <div className="flex items-center gap-1 md:gap-2">
+          <div className="flex items-center gap-2">
             <input
               type="file"
               ref={fileInputRef}
@@ -162,13 +173,8 @@ export function Dashboard() {
             
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-1 hidden sm:flex">
+                <Button variant="outline" className="gap-1">
                   <Upload size={16} /> Import
-                </Button>
-              </SheetTrigger>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="sm:hidden">
-                  <Upload size={16} />
                 </Button>
               </SheetTrigger>
               <SheetContent>
@@ -226,19 +232,10 @@ export function Dashboard() {
             
             <Button 
               variant="outline" 
-              size="sm" 
-              className="gap-1 hidden sm:flex" 
+              className="gap-1" 
               onClick={handleExport}
             >
               <Download size={16} /> Export
-            </Button>
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className="sm:hidden" 
-              onClick={handleExport}
-            >
-              <Download size={16} />
             </Button>
             
             <ThemeToggle />
@@ -246,76 +243,101 @@ export function Dashboard() {
         </div>
       </header>
       
+      {/* Mobile Header */}
+      <div className="md:hidden">
+        <MobileHeader 
+          title="Bioinformatics Roadmap"
+          onOpenSidebar={() => setIsSidebarOpen(true)}
+          onExport={handleExport}
+          onImportClick={handleImportClick}
+        />
+      </div>
+      
       <div className="flex-1 flex">
-        {/* Sidebar - now using conditional rendering and positioning for mobile */}
+        {/* Sidebar - using fixed positioning for mobile */}
         {isSidebarOpen && (
-          <aside className={`w-72 border-r bg-muted/40 p-4 space-y-4 overflow-y-auto ${isMobile ? 'fixed left-0 top-16 bottom-0 z-40 animate-slide-right' : 'relative'}`}>
-            <div>
-              <h2 className="text-lg font-semibold mb-2">Roadmap Overview</h2>
-              <Card>
-                <CardContent className="p-4 space-y-3">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Milestones</p>
-                    <p className="text-2xl font-bold">{roadmap.milestones.length}</p>
-                  </div>
-                  
-                  <div>
-                    <p className="text-sm text-muted-foreground">Resources</p>
-                    <p className="text-2xl font-bold">{totalResourcesCount}</p>
-                  </div>
-                  
-                  <div>
-                    <p className="text-sm text-muted-foreground">Progress</p>
-                    <div className="flex justify-between items-center">
-                      <p className="text-2xl font-bold">
-                        {totalResourcesCount > 0 
-                          ? Math.round((completedResourcesCount / totalResourcesCount) * 100) 
-                          : 0}%
-                      </p>
-                      <Badge variant="outline">
-                        {completedResourcesCount}/{totalResourcesCount}
-                      </Badge>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <p className="text-sm text-muted-foreground">Favorites</p>
-                    <p className="text-xl font-bold">{favoriteResourcesCount}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            
-            <Separator />
-            
-            <div>
-              <h2 className="text-lg font-semibold mb-2">About</h2>
-              <p className="text-sm text-muted-foreground mb-2">
-                This interactive roadmap helps you organize your bioinformatics learning journey.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Add milestones, resources, and track your progress as you learn.
-              </p>
-              
-              <div className="mt-4 pt-2 border-t">
-                <p className="text-xs text-muted-foreground flex items-center">
-                  <Info size={12} className="mr-1" /> Data is stored locally in your browser.
-                </p>
-              </div>
-            </div>
-            
-            {/* Add close button for mobile */}
+          <>
+            {/* Mobile overlay */}
             {isMobile && (
-              <Button 
-                className="absolute top-2 right-2" 
-                variant="ghost" 
-                size="sm"
+              <div 
+                className="fixed inset-0 bg-background/80 backdrop-blur-sm z-30"
                 onClick={() => setIsSidebarOpen(false)}
-              >
-                ✕
-              </Button>
+              />
             )}
-          </aside>
+            
+            {/* Actual sidebar */}
+            <aside className={`w-72 border-r bg-muted/40 p-4 space-y-4 overflow-y-auto ${
+              isMobile 
+                ? 'fixed left-0 top-0 bottom-0 z-40 shadow-lg animate-in slide-in-from-left' 
+                : 'relative'
+            }`}>
+              {/* Mobile close button */}
+              {isMobile && (
+                <Button 
+                  className="absolute top-3 right-3" 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  <X size={18} />
+                </Button>
+              )}
+              
+              <div className={isMobile ? 'mt-14' : ''}>
+                <h2 className="text-lg font-semibold mb-2">Roadmap Overview</h2>
+                <Card>
+                  <CardContent className="p-4 space-y-3">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Milestones</p>
+                      <p className="text-2xl font-bold">{roadmap.milestones.length}</p>
+                    </div>
+                    
+                    <div>
+                      <p className="text-sm text-muted-foreground">Resources</p>
+                      <p className="text-2xl font-bold">{totalResourcesCount}</p>
+                    </div>
+                    
+                    <div>
+                      <p className="text-sm text-muted-foreground">Progress</p>
+                      <div className="flex justify-between items-center">
+                        <p className="text-2xl font-bold">
+                          {totalResourcesCount > 0 
+                            ? Math.round((completedResourcesCount / totalResourcesCount) * 100) 
+                            : 0}%
+                        </p>
+                        <Badge variant="outline">
+                          {completedResourcesCount}/{totalResourcesCount}
+                        </Badge>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <p className="text-sm text-muted-foreground">Favorites</p>
+                      <p className="text-xl font-bold">{favoriteResourcesCount}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+              
+              <Separator />
+              
+              <div>
+                <h2 className="text-lg font-semibold mb-2">About</h2>
+                <p className="text-sm text-muted-foreground mb-2">
+                  This interactive roadmap helps you organize your bioinformatics learning journey.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Add milestones, resources, and track your progress as you learn.
+                </p>
+                
+                <div className="mt-4 pt-2 border-t">
+                  <p className="text-xs text-muted-foreground flex items-center">
+                    <Info size={12} className="mr-1" /> Data is stored locally in your browser.
+                  </p>
+                </div>
+              </div>
+            </aside>
+          </>
         )}
         
         {/* Main Content */}
@@ -332,14 +354,6 @@ export function Dashboard() {
           </div>
         </main>
       </div>
-      
-      {/* Mobile overlay when sidebar is open */}
-      {isMobile && isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-30"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
     </div>
   );
 }

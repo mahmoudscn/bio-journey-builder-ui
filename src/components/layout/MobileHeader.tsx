@@ -15,6 +15,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetFooter,
+  SheetClose
 } from "@/components/ui/sheet";
 
 interface MobileHeaderProps {
@@ -31,7 +33,7 @@ export function MobileHeader({
   onImportClick 
 }: MobileHeaderProps) {
   return (
-    <div className="flex items-center justify-between w-full py-2 px-3 border-b md:hidden">
+    <div className="sticky top-0 flex items-center justify-between w-full py-2 px-3 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-20">
       <div className="flex items-center gap-2">
         <Button 
           variant="ghost" 
@@ -47,22 +49,27 @@ export function MobileHeader({
       <div className="flex items-center gap-1">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" aria-label="Import data">
               <Upload size={16} />
             </Button>
           </SheetTrigger>
-          <SheetContent>
+          <SheetContent side="bottom" className="sm:max-w-md sm:rounded-t-xl">
             <SheetHeader>
               <SheetTitle>Import Roadmap Data</SheetTitle>
               <SheetDescription>
                 Upload a JSON file or use the desktop version for more options.
               </SheetDescription>
             </SheetHeader>
-            <div className="flex justify-center mt-4">
-              <Button onClick={onImportClick}>
+            <div className="flex justify-center my-6">
+              <Button onClick={onImportClick} className="w-full sm:w-auto">
                 Select File
               </Button>
             </div>
+            <SheetFooter className="sm:justify-center">
+              <SheetClose asChild>
+                <Button variant="outline" className="w-full sm:w-auto">Cancel</Button>
+              </SheetClose>
+            </SheetFooter>
           </SheetContent>
         </Sheet>
         
@@ -70,6 +77,7 @@ export function MobileHeader({
           variant="outline" 
           size="icon" 
           onClick={onExport}
+          aria-label="Export data"
         >
           <Download size={16} />
         </Button>
