@@ -1,4 +1,3 @@
-
 import { RoadmapData } from '@/types/roadmap';
 
 export const initialRoadmapData: RoadmapData = {
@@ -16,7 +15,7 @@ export const initialRoadmapData: RoadmapData = {
           title: "Python for Biologists",
           description: "Learn Python programming with a focus on biological data manipulation",
           url: "https://www.coursera.org/learn/python-for-biologists",
-          type: "course",
+          type: "tutorial",
           difficulty: "beginner",
           tags: ["python", "programming", "basics"],
           completed: false,

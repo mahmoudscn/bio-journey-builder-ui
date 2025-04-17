@@ -9,7 +9,8 @@ import {
   Info,
   PanelLeftClose,
   PanelLeftOpen,
-  Menu
+  Menu,
+  X
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { 
